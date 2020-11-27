@@ -2,7 +2,7 @@
   "author": "basarat",
   "name": "grunt-ts",
   "description": "Compile and manage your TypeScript project",
-  "version": "5.5.1",
+  "version": "5.5.1-ion1",
   "homepage": "https://github.com/TypeStrong/grunt-ts",
   "repository": {
     "type": "git",
@@ -60,7 +60,6 @@
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-nodeunit": "~0.2.2",
     "grunt-contrib-watch": "~0.6.1",
-    "grunt-debug-task": "^0.1.4",
     "grunt-tslint": "^2.4.0",
     "tslint": "^2.4.0",
     "jshint-path-reporter": "~0.1.3",

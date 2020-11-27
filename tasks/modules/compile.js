@@ -325,7 +325,12 @@ function compileAllFiles(options, compilationInfo) {
         }
     }
     if (options.additionalFlags) {
-        args.push(options.additionalFlags);
+        if (Array.isArray(options.additionalFlags)) {
+            args = args.concat(options.additionalFlags);
+        }
+        else {
+            args.push(options.additionalFlags);
+        }
     }
     function getTscVersion(tscPath) {
         var pkg = JSON.parse(fs.readFileSync(path.resolve(tscPath, '..', 'package.json')).toString());
@@ -344,12 +349,13 @@ function compileAllFiles(options, compilationInfo) {
     if (!tempfilename) {
         throw (new Error('cannot create temp file'));
     }
+    // Buggy, missing escape
     fs.writeFileSync(tempfilename, args.join(' '));
     var command;
     // Switch implementation if a test version of executeNode exists.
     if ('testExecute' in options) {
         if (_.isFunction(options.testExecute)) {
-            command = [tsc, args.join(' ')];
+            command = [tsc].concat(args);
             executeNode = options.testExecute;
         }
         else {

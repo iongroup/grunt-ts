@@ -362,7 +362,11 @@ export function compileAllFiles(options: IGruntTSOptions, compilationInfo: IGrun
     }
 
     if (options.additionalFlags) {
-        args.push(options.additionalFlags);
+        if (Array.isArray(options.additionalFlags)) {
+            args = args.concat(options.additionalFlags);    
+        } else {
+            args.push(options.additionalFlags);
+        }
     }
 
     function getTscVersion(tscPath: string) {
@@ -385,6 +389,7 @@ export function compileAllFiles(options: IGruntTSOptions, compilationInfo: IGrun
         throw (new Error('cannot create temp file'));
     }
 
+    // Buggy, missing escape
     fs.writeFileSync(tempfilename, args.join(' '));
 
     let command: string[];
@@ -392,7 +397,7 @@ export function compileAllFiles(options: IGruntTSOptions, compilationInfo: IGrun
     // Switch implementation if a test version of executeNode exists.
     if ('testExecute' in options) {
         if (_.isFunction(options.testExecute)) {
-            command = [tsc, args.join(' ')];
+            command = [tsc, ...args];
             executeNode = options.testExecute;
         } else {
             const invalidTestExecuteError = 'Invalid testExecute node present on target "' +
